@@ -1,0 +1,247 @@
+{
+  "dns": {
+    "servers": [
+      "1.1.1.1",
+      "1.0.0.1"
+    ],
+    "queryStrategy": "UseIP"
+  },
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:category-ru"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "network": "tcp,udp",
+        "balancerTag": "Super_Balancer"
+      }
+    ],
+    "balancers": [
+      {
+        "tag": "Super_Balancer",
+        "selector": [
+          "proxy",
+          "proxy-2"
+        ],
+        "strategy": {
+          "type": "leastLoad",
+          "settings": {
+            "maxRTT": "1s",
+            "expected": 2,
+            "baselines": [
+              "1s"
+            ],
+            "tolerance": 0.01
+          }
+        },
+        "fallbackTag": "direct"
+      }
+    ],
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "2.27.122.221",
+            "port": 443,
+            "users": [
+              {
+                "id": "dcec1f6d-0584-48ee-9e67-c2e16f23904a",
+                "encryption": "none",
+                "flow": "",
+                "level": 8,
+                "security": "auto"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "finalmask": {
+          "tcp": [
+            {
+              "settings": {
+                "delay": "10-20",
+                "length": "50-100",
+                "packets": "tlshello",
+                "maxSplit": "100-200"
+              },
+              "type": "fragment"
+            }
+          ],
+          "udp": [
+            {
+              "settings": {
+                "noise": [
+                  {
+                    "rand": "1-8192"
+                  }
+                ]
+              },
+              "type": "noise"
+            }
+          ]
+        },
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "fingerprint": "chrome",
+          "publicKey": "YuFm9PUkI61urw2Uzk_bulQJdblxqxebBafwKHW-8TE",
+          "serverName": "www.nvidia.com",
+          "shortId": "b484941b4767eb",
+          "show": false,
+          "spiderX": "/"
+        },
+        "tcpSettings": {
+          "header": {
+            "type": "none"
+          }
+        }
+      },
+      "mux": {
+        "enabled": true,
+        "concurrency": 8,
+        "xudpConcurrency": 16,
+        "xudpProxyUDP443": "reject"
+      }
+    },
+    {
+      "tag": "proxy-2",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "5.182.208.243",
+            "port": 443,
+            "users": [
+              {
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "finalmask": {
+          "tcp": [
+            {
+              "settings": {
+                "delay": "10-20",
+                "length": "50-100",
+                "packets": "tlshello",
+                "maxSplit": "100-200"
+              },
+              "type": "fragment"
+            }
+          ],
+          "udp": [
+            {
+              "settings": {
+                "noise": [
+                  {
+                    "rand": "1-8192"
+                  }
+                ]
+              },
+              "type": "noise"
+            }
+          ]
+        },
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "wtf.pidoras-dns.xyz",
+          "publicKey": "FSLRIhdm936JanF1pshNXPKPSnuw29RMpeAHN60QcWE",
+          "fingerprint": "qq"
+        }
+      },
+      "mux": {
+        "enabled": true,
+        "concurrency": 8,
+        "xudpConcurrency": 16,
+        "xudpProxyUDP443": "reject"
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ],
+  "burstObservatory": {
+    "pingConfig": {
+      "timeout": "3s",
+      "interval": "1m",
+      "sampling": 1,
+      "destination": "https://www.gstatic.com/generate_204",
+      "connectivity": ""
+    },
+    "subjectSelector": [
+      "proxy",
+      "proxy-2"
+    ]
+  },
+  "remarks": "🇪🇺 АВТО ⚡"
+}
