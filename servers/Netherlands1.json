@@ -16,6 +16,7 @@
         "outboundTag": "direct"
       },
       {
+        "type": "field",
         "domain": [
           "geosite:category-ru"
         ],
@@ -71,11 +72,11 @@
       "settings": {
         "vnext": [
           {
-            "address": "nl.chick-team.ru",
+            "address": "5.182.208.243",
             "port": 443,
             "users": [
               {
-                "id": "de6d0cd9-b46e-4a17-b032-8a186fd6073b",
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
                 "encryption": "none",
                 "flow": "xtls-rprx-vision"
               }
@@ -88,10 +89,9 @@
         "tcpSettings": {},
         "security": "reality",
         "realitySettings": {
-          "serverName": "nl.chick-team.ru",
-          "publicKey": "aLdyGbloIzzeClW7_SPWL0IZpcaUWsA7rlmbNieggWk",
-          "shortId": "0894e51863b5c395",
-          "fingerprint": "firefox"
+          "serverName": "wtf.pidoras-dns.xyz",
+          "publicKey": "FSLRIhdm936JanF1pshNXPKPSnuw29RMpeAHN60QcWE",
+          "fingerprint": "qq"
         }
       }
     },
@@ -104,5 +104,5 @@
       "protocol": "blackhole"
     }
   ],
-  "remarks": "🇳🇱Нидерланды #1"
+  "remarks": "🇳🇱 Нидерланды #1"
 }
