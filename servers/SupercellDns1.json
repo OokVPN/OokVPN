@@ -1,0 +1,152 @@
+{
+  "dns": {
+    "servers": [
+      "1.1.1.1",
+      "1.0.0.1"
+    ],
+    "queryStrategy": "UseIP"
+  },
+  "routing": {
+    "rules": [
+      {
+        "domain": [
+          "domain:supercellid.com",
+          "keyword:brawlstars",
+          "keyword:assets",
+          "domain:supercell.com",
+          "domain:supercell.io",
+          "domain:brawlstarsgame.com",
+          "bsd.meowfox.net",
+          "bsdtest.meowfox.net"
+        ],
+        "outboundTag": "proxy"
+      },
+      {
+        "ip": [
+          "145.239.3.4"
+        ],
+        "outboundTag": "proxy"
+      },
+      {
+        "port": "9339",
+        "network": "tcp,udp",
+        "outboundTag": "proxy"
+      },
+      {
+        "port": "10000-65535",
+        "network": "udp",
+        "outboundTag": "proxy"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "regexp:(?i)(^|\\.)dns\\."
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "network": "tcp",
+        "outboundTag": "direct"
+      }
+    ],
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "87.249.36.75",
+            "port": 443,
+            "users": [
+              {
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "msksel.2kit.shop",
+          "publicKey": "mh4ATBdJXpcDyloDVWJanxD6khWGTI24HukpBaX2400",
+          "fingerprint": "qq"
+        },
+        "sockopt": {
+          "mark": 0,
+          "V6Only": false,
+          "tproxy": "off",
+          "tcpMptcp": false,
+          "tcpMaxSeg": 1380,
+          "tcpNoDelay": true,
+          "dialerProxy": "",
+          "tcpFastOpen": true,
+          "happyEyeballs": {},
+          "tcpcongestion": "bbr",
+          "domainStrategy": "UseIPv4",
+          "tcpUserTimeout": 3000,
+          "tcpWindowClamp": 0,
+          "tcpKeepAliveIdle": 30,
+          "acceptProxyProtocol": false,
+          "tcpKeepAliveInterval": 15
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ],
+  "remarks": "🇷🇺 Россия #1 | Игры суперселл"
+}
