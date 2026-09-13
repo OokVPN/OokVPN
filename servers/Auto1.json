@@ -1,9 +1,13 @@
 {
+  "remarks": "🇪🇺 АВТО ⚡",
+  "log": {
+    "access": "",
+    "error": "",
+    "loglevel": "warning"
+  },
   "dns": {
     "hosts": {
-      "ntc.party": [
-        "130.255.77.28"
-      ]
+      "ntc.party": "130.255.77.28"
     },
     "queryStrategy": "UseIPv4",
     "servers": [
@@ -13,18 +17,14 @@
           "geosite:category-ru",
           "geosite:private"
         ],
-        "timeoutMs": 600,
+        "timeout": 600,
         "unexpectedIPs": [
           "geoip:private"
         ]
       },
       "1.1.1.1",
-      "8.8.8.8"
-    ],
-    "useSystemHosts": false
-  },
-  "log": {
-    "loglevel": "warning"
+      "1.0.0.1"
+    ]
   },
   "routing": {
     "domainStrategy": "IPIfNonMatch",
@@ -46,10 +46,10 @@
         "outboundTag": "block"
       },
       {
+        "type": "field",
         "ip": [
           "geoip:private"
         ],
-        "type": "field",
         "outboundTag": "direct"
       },
       {
@@ -85,67 +85,55 @@
       {
         "tag": "Super_Balancer",
         "selector": [
-          "proxy",
-          "proxy-2",
-          "proxy-3"
+          "proxy-fi-1",
+          "proxy-fi-2",
+          "proxy-de-1",
+          "proxy-de-2",
+          "proxy-nl-1"
         ],
+        "fallbackTag": "direct",
         "strategy": {
-          "type": "leastLoad",
-          "settings": {
-            "maxRTT": "1s",
-            "expected": 3,
-            "baselines": [
-              "1s"
-            ],
-            "tolerance": 0.01
-          }
+          "type": "leastLoad"
         },
-        "fallbackTag": "direct"
+        "fallback": {
+          "expected": 3,
+          "baselines": [
+            "1s"
+          ],
+          "tolerance": 0.01
+        }
       }
     ]
   },
-  "inbounds": [
-    {
-      "tag": "socks",
-      "port": 10808,
-      "listen": "127.0.0.1",
-      "protocol": "socks",
-      "settings": {
-        "udp": true,
-        "auth": "noauth"
-      },
-      "sniffing": {
-        "enabled": true,
-        "routeOnly": false,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
-      }
-    },
-    {
-      "tag": "http",
-      "port": 10809,
-      "listen": "127.0.0.1",
-      "protocol": "http",
-      "settings": {
-        "allowTransparent": false
-      },
-      "sniffing": {
-        "enabled": true,
-        "routeOnly": false,
-        "destOverride": [
-          "http",
-          "tls",
-          "quic"
-        ]
-      }
+  "observatory": {
+    "subjectSelector": [
+      "proxy-fi-1",
+      "proxy-fi-2",
+      "proxy-de-1",
+      "proxy-de-2",
+      "proxy-nl-1"
+    ],
+    "probeURL": "https://www.gstatic.com/generate_204",
+    "probeInterval": "1m"
+  },
+  "burstObservatory": {
+    "subjectSelector": [
+      "proxy-fi-1",
+      "proxy-fi-2",
+      "proxy-de-1",
+      "proxy-de-2",
+      "proxy-nl-1"
+    ],
+    "pingConfig": {
+      "destination": "https://www.gstatic.com/generate_204",
+      "interval": "1m",
+      "sampling": 3,
+      "timeout": "5s"
     }
-  ],
+  },
   "outbounds": [
     {
-      "tag": "proxy",
+      "tag": "proxy-fi-1",
       "protocol": "vless",
       "settings": {
         "vnext": [
@@ -156,54 +144,25 @@
               {
                 "id": "dcec1f6d-0584-48ee-9e67-c2e16f23904a",
                 "encryption": "none",
-                "flow": "",
-                "level": 8,
-                "security": "auto"
+                "level": 8
               }
             ]
           }
         ]
       },
       "streamSettings": {
-        "finalmask": {
-          "tcp": [
-            {
-              "settings": {
-                "delay": "10-20",
-                "length": "50-100",
-                "packets": "tlshello",
-                "maxSplit": "100-200"
-              },
-              "type": "fragment"
-            }
-          ],
-          "udp": [
-            {
-              "settings": {
-                "noise": [
-                  {
-                    "rand": "1-8192"
-                  }
-                ]
-              },
-              "type": "noise"
-            }
-          ]
-        },
         "network": "tcp",
         "security": "reality",
         "realitySettings": {
+          "serverName": "www.nvidia.com",
           "fingerprint": "chrome",
           "publicKey": "YuFm9PUkI61urw2Uzk_bulQJdblxqxebBafwKHW-8TE",
-          "serverName": "www.nvidia.com",
           "shortId": "b484941b4767eb",
-          "show": false,
-          "spiderX": "/"
+          "spiderX": ""
         },
-        "tcpSettings": {
-          "header": {
-            "type": "none"
-          }
+        "sockopt": {
+          "tcpNoDelay": true,
+          "tcpKeepAliveIdle": 100
         }
       },
       "mux": {
@@ -214,67 +173,7 @@
       }
     },
     {
-      "tag": "proxy-2",
-      "protocol": "vless",
-      "settings": {
-        "vnext": [
-          {
-            "address": "5.182.208.243",
-            "port": 443,
-            "users": [
-              {
-                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
-                "encryption": "none",
-                "flow": "xtls-rprx-vision"
-              }
-            ]
-          }
-        ]
-      },
-      "streamSettings": {
-        "finalmask": {
-          "tcp": [
-            {
-              "settings": {
-                "delay": "10-20",
-                "length": "50-100",
-                "packets": "tlshello",
-                "maxSplit": "100-200"
-              },
-              "type": "fragment"
-            }
-          ],
-          "udp": [
-            {
-              "settings": {
-                "noise": [
-                  {
-                    "rand": "1-8192"
-                  }
-                ]
-              },
-              "type": "noise"
-            }
-          ]
-        },
-        "network": "tcp",
-        "tcpSettings": {},
-        "security": "reality",
-        "realitySettings": {
-          "serverName": "wtf.pidoras-dns.xyz",
-          "publicKey": "FSLRIhdm936JanF1pshNXPKPSnuw29RMpeAHN60QcWE",
-          "fingerprint": "qq"
-        }
-      },
-      "mux": {
-        "enabled": true,
-        "concurrency": 8,
-        "xudpConcurrency": 16,
-        "xudpProxyUDP443": "reject"
-      }
-    },
-    {
-      "tag": "proxy-3",
+      "tag": "proxy-fi-2",
       "protocol": "vless",
       "settings": {
         "vnext": [
@@ -285,7 +184,7 @@
               {
                 "id": "b091731e-bf7d-4c77-86c1-64fb9219a44f",
                 "encryption": "none",
-                "flow": ""
+                "level": 8
               }
             ]
           }
@@ -296,7 +195,119 @@
         "security": "none",
         "wsSettings": {
           "path": "/ws",
-          "host": "135.106.178.226"
+          "headers": {
+            "Host": "135.106.178.226"
+          }
+        }
+      },
+      "mux": {
+        "enabled": true,
+        "concurrency": 8,
+        "xudpConcurrency": 16,
+        "xudpProxyUDP443": "reject"
+      }
+    },
+    {
+      "tag": "proxy-de-1",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "217.60.14.91",
+            "port": 443,
+            "users": [
+              {
+                "id": "b2f2c774-2d57-4a8c-a530-b6f7e3a58596",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision",
+                "level": 8
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "bol.com",
+          "fingerprint": "edge",
+          "publicKey": "yyXZsa238GRW90w5DweXAdRTtVSuK9oZF_dihKQ41So",
+          "shortId": "9e5a335de26d1f5a",
+          "spiderX": ""
+        },
+        "sockopt": {
+          "tcpNoDelay": true,
+          "tcpKeepAliveIdle": 100
+        }
+      }
+    },
+    {
+      "tag": "proxy-de-2",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "217.60.14.91",
+            "port": 2053,
+            "users": [
+              {
+                "id": "b2f2c774-2d57-4a8c-a530-b6f7e3a58596",
+                "encryption": "none",
+                "level": 8
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "xhttp",
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "bol.com",
+          "fingerprint": "edge",
+          "publicKey": "yyXZsa238GRW90w5DweXAdRTtVSuK9oZF_dihKQ41So",
+          "shortId": "9e5a335de26d1f5a",
+          "spiderX": ""
+        },
+        "xhttpSettings": {
+          "path": "/media-cdn/segments",
+          "mode": "stream-one"
+        }
+      }
+    },
+    {
+      "tag": "proxy-nl-1",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "5.182.208.243",
+            "port": 443,
+            "users": [
+              {
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision",
+                "level": 8
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "wtf.pidoras-dns.xyz",
+          "fingerprint": "qq",
+          "publicKey": "FSLRIhdm936JanF1pshNXPKPSnuw29RMpeAHN60QcWE",
+          "shortId": "",
+          "spiderX": ""
+        },
+        "sockopt": {
+          "tcpNoDelay": true,
+          "tcpKeepAliveIdle": 100
         }
       }
     },
@@ -308,20 +319,5 @@
       "tag": "block",
       "protocol": "blackhole"
     }
-  ],
-  "burstObservatory": {
-    "pingConfig": {
-      "timeout": "3s",
-      "interval": "1m",
-      "sampling": 1,
-      "destination": "https://www.gstatic.com/generate_204",
-      "connectivity": ""
-    },
-    "subjectSelector": [
-      "proxy",
-      "proxy-2",
-      "proxy-3"
-    ]
-  },
-  "remarks": "🇪🇺 АВТО ⚡"
+  ]
 }
