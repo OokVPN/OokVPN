@@ -1,12 +1,28 @@
 {
   "dns": {
+    "hosts": {
+      "ntc.party": "130.255.77.28"
+    },
+    "queryStrategy": "UseIPv4",
     "servers": [
+      {
+        "address": "77.88.8.8",
+        "domains": [
+          "geosite:category-ru",
+          "geosite:private"
+        ],
+        "timeout": 600,
+        "unexpectedIPs": [
+          "geoip:private"
+        ]
+      },
       "1.1.1.1",
       "1.0.0.1"
-    ],
-    "queryStrategy": "UseIP"
+    ]
   },
   "routing": {
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch",
     "rules": [
       {
         "type": "field",
@@ -18,13 +34,47 @@
       {
         "type": "field",
         "domain": [
-          "geosite:category-ru"
+          "domain:oneme.ru",
+          "domain:max.ru"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
         ],
         "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "regexp:(^|\\.)ru$",
+          "regexp:(^|\\.)xn--p1ai$",
+          "regexp:(^|\\.)su$",
+          "domain:2gis.ru",
+          "domain:2gis.com",
+          "domain:dgis.ru",
+          "domain:maps.2gis.com",
+          "domain:static.maps.2gis.com",
+          "regexp:(^|\\.)2gis\\.ru$",
+          "regexp:(^|\\.)2gis\\.com$"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "network": "tcp,udp",
+        "outboundTag": "proxy"
       }
-    ],
-    "domainMatcher": "hybrid",
-    "domainStrategy": "IPIfNonMatch"
+    ]
   },
   "inbounds": [
     {
