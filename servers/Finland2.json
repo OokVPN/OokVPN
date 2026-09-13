@@ -19,7 +19,7 @@
         ]
       },
       "1.1.1.1",
-      "8.8.8.8"
+      "1.0.0.1"
     ],
     "useSystemHosts": false
   },
@@ -45,17 +45,10 @@
         "outboundTag": "block"
       },
       {
+        "type": "field",
         "ip": [
           "geoip:private"
         ],
-        "type": "field",
-        "outboundTag": "direct"
-      },
-      {
-        "ip": [
-          "geoip:ru"
-        ],
-        "type": "field",
         "outboundTag": "direct"
       },
       {
@@ -80,6 +73,11 @@
           "regexp:(^|\\.)2gis\\.com$"
         ],
         "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "network": "tcp,udp",
+        "outboundTag": "proxy"
       }
     ]
   },
