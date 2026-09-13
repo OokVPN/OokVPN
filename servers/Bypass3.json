@@ -16,6 +16,7 @@
         "outboundTag": "direct"
       },
       {
+        "type": "field",
         "domain": [
           "geosite:category-ru"
         ],
@@ -71,34 +72,26 @@
       "settings": {
         "vnext": [
           {
-            "address": "jill.chick-team.ru",
+            "address": "81.94.148.8",
             "port": 443,
             "users": [
               {
-                "id": "de6d0cd9-b46e-4a17-b032-8a186fd6073b",
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
                 "encryption": "none",
-                "flow": ""
+                "flow": "xtls-rprx-vision"
               }
             ]
           }
         ]
       },
       "streamSettings": {
-        "network": "ws",
-        "wsSettings": {
-          "path": "/lovelive",
-          "host": "",
-          "headers": {}
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "jill.chick-team.ru",
-          "enableSessionResumption": false,
-          "fingerprint": "edge",
-          "alpn": [
-            "h2",
-            "http/1.1"
-          ]
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "msk.cdnvideo.work",
+          "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
+          "fingerprint": "qq"
         }
       }
     },
@@ -111,5 +104,5 @@
       "protocol": "blackhole"
     }
   ],
-  "remarks": "🇷🇺 Обход глушилок #3"
+  "remarks": "🇨🇭 LTE #3 | Все операторы"
 }
