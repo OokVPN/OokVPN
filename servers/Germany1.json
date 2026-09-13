@@ -1,100 +1,71 @@
 {
   "dns": {
+    "hosts": {
+      "ntc.party": "130.255.77.28"
+    },
+    "queryStrategy": "UseIPv4",
     "servers": [
+      {
+        "address": "77.88.8.8",
+        "domains": [
+          "geosite:category-ru",
+          "geosite:private"
+        ],
+        "timeout": 600,
+        "unexpectedIPs": [
+          "geoip:private"
+        ]
+      },
       "1.1.1.1",
-      "1.0.0.1",
-      "8.8.8.8"
-    ],
-    "queryStrategy": "UseIPv4"
+      "1.0.0.1"
+    ]
   },
   "routing": {
+    "domainStrategy": "IPIfNonMatch",
+    "domainMatcher": "hybrid",
     "rules": [
       {
         "type": "field",
         "protocol": [
           "bittorrent"
         ],
-        "outboundTag": "block"
-      },
-      {
-        "ip": [
-          "10.0.0.0/8",
-          "100.64.0.0/10",
-          "127.0.0.0/8",
-          "169.254.0.0/16",
-          "172.16.0.0/12",
-          "192.168.0.0/16",
-          "::1/128",
-          "fc00::/7",
-          "fe80::/10"
-        ],
-        "type": "field",
         "outboundTag": "direct"
       },
       {
         "type": "field",
         "domain": [
-          "domain:ozon.com",
-          "domain:ozon.ru",
-          "domain:wildberries.ru",
-          "domain:wb.ru",
-          "domain:avito.ru",
-          "domain:vk.com",
-          "domain:yandex.ru",
-          "domain:yandex.net",
-          "domain:sber.ru",
-          "domain:sberbank.ru",
-          "domain:gosuslugi.ru",
-          "domain:mail.ru",
-          "domain:ok.ru",
-          "domain:rutube.ru",
-          "domain:tinkoff.ru",
-          "domain:raiffeisen.ru",
-          "domain:alfa-bank.ru",
-          "domain:mvideo.ru",
-          "domain:dns-shop.ru",
-          "domain:eldorado.ru",
-          "domain:citilink.ru",
-          "domain:kaspersky.ru",
-          "domain:mos.ru",
-          "domain:rbc.ru",
-          "domain:gazprombank.ru",
-          "domain:vtb.ru",
-          "domain:sbp.ru",
-          "domain:psbank.ru",
-          "domain:rosbank.ru",
-          "domain:mkb.ru",
-          "domain:sovcombank.ru",
-          "domain:homecredit.ru",
-          "domain:pochtabank.ru",
-          "domain:qiwi.com",
-          "domain:yoomoney.ru",
-          "domain:nalog.ru",
-          "domain:cbr.ru",
-          "domain:pochta.ru",
-          "domain:gibdd.ru",
-          "domain:rosreestr.ru",
-          "domain:mvd.ru",
-          "domain:fns.ru",
-          "domain:mts.ru",
-          "domain:beeline.ru",
-          "domain:megafon.ru",
-          "domain:tele2.ru",
-          "domain:yota.ru",
-          "domain:lamoda.ru",
-          "domain:sbermegamarket.ru",
-          "domain:samokat.ru",
-          "domain:cdek.ru",
-          "domain:boxberry.ru",
-          "domain:kinopoisk.ru",
-          "domain:ivi.ru",
-          "domain:okko.tv",
-          "domain:more.tv",
-          "domain:start.ru",
+          "domain:oneme.ru",
+          "domain:max.ru"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "regexp:(^|\\.)ru$",
+          "regexp:(^|\\.)xn--p1ai$",
+          "regexp:(^|\\.)su$",
           "domain:2gis.ru",
-          "domain:rzd.ru",
-          "domain:aeroflot.ru",
-          "domain:s7.ru"
+          "domain:2gis.com",
+          "domain:dgis.ru",
+          "domain:maps.2gis.com",
+          "domain:static.maps.2gis.com",
+          "regexp:(^|\\.)2gis\\.ru$",
+          "regexp:(^|\\.)2gis\\.com$"
         ],
         "outboundTag": "direct"
       },
@@ -103,9 +74,7 @@
         "network": "tcp,udp",
         "outboundTag": "proxy"
       }
-    ],
-    "domainMatcher": "hybrid",
-    "domainStrategy": "IPIfNonMatch"
+    ]
   },
   "inbounds": [
     {
