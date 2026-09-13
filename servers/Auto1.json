@@ -26,6 +26,45 @@
       "1.0.0.1"
     ]
   },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
   "routing": {
     "domainStrategy": "IPIfNonMatch",
     "domainMatcher": "hybrid",
@@ -93,28 +132,18 @@
         ],
         "fallbackTag": "direct",
         "strategy": {
-          "type": "leastLoad"
-        },
-        "fallback": {
-          "expected": 3,
-          "baselines": [
-            "1s"
-          ],
-          "tolerance": 0.01
+          "type": "leastLoad",
+          "settings": {
+            "expected": 3,
+            "maxRTT": "1s",
+            "baselines": [
+              "1s"
+            ],
+            "tolerance": 0.01
+          }
         }
       }
     ]
-  },
-  "observatory": {
-    "subjectSelector": [
-      "proxy-fi-1",
-      "proxy-fi-2",
-      "proxy-de-1",
-      "proxy-de-2",
-      "proxy-nl-1"
-    ],
-    "probeURL": "https://www.gstatic.com/generate_204",
-    "probeInterval": "1m"
   },
   "burstObservatory": {
     "subjectSelector": [
