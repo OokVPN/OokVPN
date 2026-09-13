@@ -16,6 +16,7 @@
         "outboundTag": "direct"
       },
       {
+        "type": "field",
         "domain": [
           "geosite:category-ru"
         ],
@@ -67,26 +68,30 @@
   "outbounds": [
     {
       "tag": "proxy",
-      "protocol": "hysteria",
+      "protocol": "vless",
       "settings": {
-        "address": "147.45.157.234",
-        "port": 8443,
-        "version": 2
+        "vnext": [
+          {
+            "address": "81.94.148.199",
+            "port": 443,
+            "users": [
+              {
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
       },
       "streamSettings": {
-        "network": "hysteria",
-        "hysteriaSettings": {
-          "version": 2,
-          "auth": "de6d0cd9-b46e-4a17-b032-8a186fd6073b"
-        },
-        "security": "tls",
-        "tlsSettings": {
-          "serverName": "bornlkrp.yotsuba.space",
-          "enableSessionResumption": false,
-          "fingerprint": "random",
-          "alpn": [
-            "h3"
-          ]
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "msk.cdnvideo.work",
+          "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
+          "fingerprint": "qq"
         }
       }
     },
@@ -99,5 +104,5 @@
       "protocol": "blackhole"
     }
   ],
-  "remarks": "🇷🇺 Обход глушилок #2"
+  "remarks": "🇨🇭 LTE #2 | Все операторы"
 }
