@@ -359,31 +359,31 @@
   "outbounds": [
     {
       "tag": "proxy",
-      "protocol": "vless",
+      "protocol": "hysteria",
       "settings": {
-        "vnext": [
-          {
-            "address": "45.194.66.96",
-            "port": 443,
-            "users": [
-              {
-                "id": "052d0bc5-02de-426e-986d-b6528cd41380",
-                "encryption": "none",
-                "flow": "xtls-rprx-vision"
-              }
-            ]
-          }
-        ]
+        "address": "45.192.12.121",
+        "port": 443,
+        "version": 2
       },
       "streamSettings": {
-        "network": "tcp",
-        "tcpSettings": {},
-        "security": "reality",
-        "realitySettings": {
-          "serverName": "kookas.fi",
-          "publicKey": "qB_eMu3ZO_wGITnyIqJ7Kt39-h9oHFnHlQQEqA-r3VA",
-          "shortId": "43dcff53849b81e6",
-          "fingerprint": "firefox"
+        "network": "hysteria",
+        "hysteriaSettings": {
+          "version": 2,
+          "auth": "052d0bc5-02de-426e-986d-b6528cd41380"
+        },
+        "security": "tls",
+        "tlsSettings": {
+          "serverName": "bu-pl-hy.cloud-files.app",
+          "fingerprint": "firefox",
+          "alpn": [
+            "h3"
+          ]
+        },
+        "finalmask": {
+          "quicParams": {
+            "debug": false,
+            "congestion": "bbr"
+          }
         }
       }
     },
