@@ -1,211 +1,102 @@
 {
-  "api": {
-    "listen": "[::1]:10085",
-    "services": [
-      "StatsService"
-    ],
-    "tag": "api"
-  },
   "dns": {
-    "hosts": {
-      "8.8.8.8": "8.8.8.8",
-      "77.88.8.8": "77.88.8.8",
-      "domain:googleapis.cn": "googleapis.com",
-      "lkfl2.nalog.ru": "213.24.64.175",
-      "lknpd.nalog.ru": "213.24.64.181"
-    },
-    "queryStrategy": "UseIPv4",
     "servers": [
-      "https://8.8.8.8/dns-query",
+      "1.1.1.1",
+      "1.0.0.1"
+    ],
+    "queryStrategy": "UseIP"
+  },
+  "routing": {
+    "rules": [
       {
-        "address": "https://8.8.8.8/dns-query",
-        "domains": [
-          "geosite:google-play",
-          "geosite:github",
-          "geosite:twitch-ads",
-          "geosite:youtube",
-          "geosite:telegram"
-        ]
-      },
-      {
-        "address": "https://77.88.8.8/dns-query",
-        "domains": [
-          "geosite:private",
-          "geosite:category-ru",
-          "geosite:whitelist",
-          "geosite:microsoft",
-          "geosite:apple",
-          "geosite:epicgames",
-          "geosite:riot",
-          "geosite:escapefromtarkov",
-          "geosite:steam",
-          "geosite:twitch",
-          "geosite:pinterest",
-          "geosite:faceit"
-        ]
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "direct"
       }
-    ]
+    ],
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch"
   },
   "inbounds": [
     {
-      "listen": "127.0.0.1",
+      "tag": "socks",
       "port": 10808,
+      "listen": "127.0.0.1",
       "protocol": "socks",
       "settings": {
-        "auth": "noauth",
         "udp": true,
-        "userLevel": 8
+        "auth": "noauth"
       },
       "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
         "destOverride": [
           "http",
           "tls",
           "quic"
-        ],
-        "enabled": true
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
       },
-      "tag": "socks"
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
     }
   ],
-  "log": {
-    "access": "/data/user/0/com.happproxy/files/logs/access/access_log.txt",
-    "dnsLog": true,
-    "error": "/data/user/0/com.happproxy/files/logs/error/1789684379585_error_log.txt",
-    "loglevel": "debug"
-  },
   "outbounds": [
     {
-      "mux": {
-        "concurrency": -1,
-        "enabled": false,
-        "xudpConcurrency": 8,
-        "xudpProxyUDP443": ""
-      },
-      "protocol": "trojan",
+      "tag": "proxy",
+      "protocol": "vless",
       "settings": {
-        "servers": [
+        "vnext": [
           {
-            "address": "81.163.22.83",
-            "flow": "",
-            "level": 8,
-            "method": "chacha20-poly1305",
-            "ota": false,
-            "password": "eZwp12tXna8-s_ysszXnXq25rv1c8w",
-            "port": 6443
+            "address": "zqrv8.guardora.pro",
+            "port": 10026,
+            "users": [
+              {
+                "id": "052d0bc5-02de-426e-986d-b6528cd41380",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
           }
         ]
       },
       "streamSettings": {
         "network": "tcp",
-        "security": "tls",
-        "tcpSettings": {
-          "header": {
-            "type": "none"
-          }
-        },
-        "tlsSettings": {
-          "fingerprint": "chrome",
-          "serverName": "speed-detwo.cloudload.org",
-          "show": false
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "kookas.fi",
+          "publicKey": "qB_eMu3ZO_wGITnyIqJ7Kt39-h9oHFnHlQQEqA-r3VA",
+          "shortId": "43dcff53849b81e6",
+          "fingerprint": "firefox"
         }
-      },
-      "tag": "proxy"
+      }
     },
     {
-      "protocol": "freedom",
-      "tag": "direct"
+      "tag": "direct",
+      "protocol": "freedom"
     },
     {
-      "protocol": "blackhole",
-      "tag": "block"
+      "tag": "block",
+      "protocol": "blackhole"
     }
   ],
-  "policy": {
-    "levels": {
-      "8": {
-        "connIdle": 300,
-        "downlinkOnly": 1,
-        "handshake": 4,
-        "uplinkOnly": 1
-      }
-    },
-    "system": {
-      "statsOutboundUplink": true,
-      "statsOutboundDownlink": true
-    }
-  },
-  "remarks": "🇩🇪 LTE #4 | Все операторы",
-  "routing": {
-    "domainStrategy": "IPIfNonMatch",
-    "rules": [
-      {
-        "ip": [
-          "8.8.8.8"
-        ],
-        "outboundTag": "proxy",
-        "port": "443"
-      },
-      {
-        "ip": [
-          "77.88.8.8"
-        ],
-        "outboundTag": "direct",
-        "port": "443"
-      },
-      {
-        "domain": [
-          "geosite:win-spy",
-          "geosite:torrent",
-          "geosite:category-ads"
-        ],
-        "outboundTag": "block"
-      },
-      {
-        "domain": [
-          "geosite:google-play",
-          "geosite:github",
-          "geosite:twitch-ads",
-          "geosite:youtube",
-          "geosite:telegram"
-        ],
-        "outboundTag": "proxy"
-      },
-      {
-        "domain": [
-          "geosite:private",
-          "geosite:category-ru",
-          "geosite:whitelist",
-          "geosite:microsoft",
-          "geosite:apple",
-          "geosite:epicgames",
-          "geosite:riot",
-          "geosite:escapefromtarkov",
-          "geosite:steam",
-          "geosite:twitch",
-          "geosite:pinterest",
-          "geosite:faceit"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "ip": [
-          "geoip:private",
-          "geoip:direct"
-        ],
-        "outboundTag": "direct"
-      },
-      {
-        "ip": [
-          "10.0.0.0/8",
-          "172.16.0.0/12",
-          "192.168.0.0/16",
-          "169.254.0.0/16",
-          "224.0.0.0/4",
-          "255.255.255.255"
-        ],
-        "outboundTag": "direct"
-      }
-    ]
-  },
-  "stats": {}
+  "remarks": "🇪🇪 LTE #4 | Все операторы"
 }
