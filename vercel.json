@@ -1,0 +1,13 @@
+{
+  "headers": [
+    {
+      "source": "/sub.json",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json; charset=utf-8"
+        }
+      ]
+    }
+  ]
+}
