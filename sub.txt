@@ -1,4 +1,482 @@
-#profile-title: OokVPN Dev
+#profile-title: OokVPN 🏳
 #profile-update-interval: 1
 #subscription-userinfo: upload=0; download=0; total=0; expire=0
-vless://b091731e-bf7d-4c77-86c1-64fb9219a44f@135.106.178.226:2087?encryption=none&security=none&type=ws&host=135.106.178.226&path=%2Fws#%F0%9F%87%AB%F0%9F%87%AE%20%D0%A4%D0%B8%D0%BD%D0%BB%D1%8F%D0%BD%D0%B4%D0%B8%D1%8F%20%232
+[
+{
+  "dns": {
+    "hosts": {
+      "ntc.party": [
+        "130.255.77.28"
+      ]
+    },
+    "servers": [
+      {
+        "address": "77.88.8.8",
+        "domains": [
+          "geosite:category-ru",
+          "geosite:private"
+        ],
+        "timeoutMs": 600,
+        "unexpectedIPs": [
+          "geoip:private"
+        ]
+      },
+      "1.1.1.1",
+      "1.0.0.1"
+    ],
+    "queryStrategy": "UseIP",
+    "useSystemHosts": false
+  },
+  "log": {
+    "loglevel": "warning"
+  },
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "domain:oneme.ru",
+          "domain:max.ru"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "regexp:(^|\\.)ru$",
+          "regexp:(^|\\.)xn--p1ai$",
+          "regexp:(^|\\.)su$",
+          "domain:2gis.ru",
+          "domain:2gis.com",
+          "domain:dgis.ru",
+          "domain:maps.2gis.com",
+          "domain:static.maps.2gis.com",
+          "regexp:(^|\\.)2gis\\.ru$",
+          "regexp:(^|\\.)2gis\\.com$"
+        ],
+        "outboundTag": "direct"
+      }
+    ],
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "78.159.245.161",
+            "port": 443,
+            "users": [
+              {
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "msk.cdnvideo.work",
+          "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
+          "fingerprint": "qq"
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ],
+  "remarks": "🇨🇭 LTE #1 | Все операторы"
+},
+{
+  "dns": {
+    "hosts": {
+      "ntc.party": [
+        "130.255.77.28"
+      ]
+    },
+    "servers": [
+      {
+        "address": "77.88.8.8",
+        "domains": [
+          "geosite:category-ru",
+          "geosite:private"
+        ],
+        "timeoutMs": 600,
+        "unexpectedIPs": [
+          "geoip:private"
+        ]
+      },
+      "1.1.1.1",
+      "1.0.0.1"
+    ],
+    "queryStrategy": "UseIP",
+    "useSystemHosts": false
+  },
+  "log": {
+    "loglevel": "warning"
+  },
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "domain:oneme.ru",
+          "domain:max.ru"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "regexp:(^|\\.)ru$",
+          "regexp:(^|\\.)xn--p1ai$",
+          "regexp:(^|\\.)su$",
+          "domain:2gis.ru",
+          "domain:2gis.com",
+          "domain:dgis.ru",
+          "domain:maps.2gis.com",
+          "domain:static.maps.2gis.com",
+          "regexp:(^|\\.)2gis\\.ru$",
+          "regexp:(^|\\.)2gis\\.com$"
+        ],
+        "outboundTag": "direct"
+      }
+    ],
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "81.94.148.199",
+            "port": 443,
+            "users": [
+              {
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "msk.cdnvideo.work",
+          "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
+          "fingerprint": "qq"
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ],
+  "remarks": "🇨🇭 LTE #2 | Все операторы"
+},
+{
+  "dns": {
+    "hosts": {
+      "ntc.party": [
+        "130.255.77.28"
+      ]
+    },
+    "servers": [
+      {
+        "address": "77.88.8.8",
+        "domains": [
+          "geosite:category-ru",
+          "geosite:private"
+        ],
+        "timeoutMs": 600,
+        "unexpectedIPs": [
+          "geoip:private"
+        ]
+      },
+      "1.1.1.1",
+      "1.0.0.1"
+    ],
+    "queryStrategy": "UseIP",
+    "useSystemHosts": false
+  },
+  "log": {
+    "loglevel": "warning"
+  },
+  "routing": {
+    "rules": [
+      {
+        "type": "field",
+        "protocol": [
+          "bittorrent"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "domain:oneme.ru",
+          "domain:max.ru"
+        ],
+        "outboundTag": "block"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "regexp:(^|\\.)ru$",
+          "regexp:(^|\\.)xn--p1ai$",
+          "regexp:(^|\\.)su$",
+          "domain:2gis.ru",
+          "domain:2gis.com",
+          "domain:dgis.ru",
+          "domain:maps.2gis.com",
+          "domain:static.maps.2gis.com",
+          "regexp:(^|\\.)2gis\\.ru$",
+          "regexp:(^|\\.)2gis\\.com$"
+        ],
+        "outboundTag": "direct"
+      }
+    ],
+    "domainMatcher": "hybrid",
+    "domainStrategy": "IPIfNonMatch"
+  },
+  "inbounds": [
+    {
+      "tag": "socks",
+      "port": 10808,
+      "listen": "127.0.0.1",
+      "protocol": "socks",
+      "settings": {
+        "udp": true,
+        "auth": "noauth"
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    },
+    {
+      "tag": "http",
+      "port": 10809,
+      "listen": "127.0.0.1",
+      "protocol": "http",
+      "settings": {
+        "allowTransparent": false
+      },
+      "sniffing": {
+        "enabled": true,
+        "routeOnly": false,
+        "destOverride": [
+          "http",
+          "tls",
+          "quic"
+        ]
+      }
+    }
+  ],
+  "outbounds": [
+    {
+      "tag": "proxy",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "81.94.148.8",
+            "port": 443,
+            "users": [
+              {
+                "id": "51238fe2-dc61-45cd-b3a6-ebb212c6c7c8",
+                "encryption": "none",
+                "flow": "xtls-rprx-vision"
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "msk.cdnvideo.work",
+          "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
+          "fingerprint": "qq"
+        }
+      }
+    },
+    {
+      "tag": "direct",
+      "protocol": "freedom"
+    },
+    {
+      "tag": "block",
+      "protocol": "blackhole"
+    }
+  ],
+  "remarks": "🇨🇭 Обход глушилок #3"
+}
+]
