@@ -140,15 +140,12 @@ function responseHeaders(
 
     "profile-update-interval":
       "1",
-
-    "support-url":
-      "https://t.me/OokVPNHelp",
-
+    
     "subscription-always-hwid-enable":
       "1",
 
     "subscription-userinfo":
-      "upload=0; download=0; total=0; expire=3383251200",
+      "upload=0; download=0; total=0",
 
     "Cache-Control":
       "no-store"
