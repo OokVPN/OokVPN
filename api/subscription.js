@@ -142,7 +142,7 @@ function responseHeaders(
       "1",
 
     "support-url":
-      "https://t.me/LukirbyVPN",
+      "https://t.me/OokVPNHelp",
 
     "subscription-always-hwid-enable":
       "1",
@@ -183,6 +183,12 @@ export default {
           request.url
         );
 
+if (url.pathname !== "/sub.txt") {
+    return new Response("Not Found", {
+        status: 404
+    });
+}
+      
       const token =
         url.searchParams.get(
           "token"
