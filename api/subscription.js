@@ -179,12 +179,6 @@ export default {
         new URL(
           request.url
         );
-
-if (url.pathname !== "/sub.txt") {
-    return new Response("Not Found", {
-        status: 404
-    });
-}
       
       const token =
         url.searchParams.get(
