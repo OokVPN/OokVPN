@@ -2,7 +2,7 @@
   "rewrites": [
     {
       "source": "/sub.txt",
-      "destination": "/api/sub"
+      "destination": "/api/subscription"
     }
   ]
 }
