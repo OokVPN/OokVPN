@@ -2,7 +2,7 @@ const REPO_RAW_BASE =
   "https://raw.githubusercontent.com/lukirby-vpn/LukirbyVPN/main";
 
 const BACKEND_URL =
-  "https://lukirby-backend.onrender.com";
+  "https://ook-backend.vercel.app";
 
 function toBase64UTF8(text) {
   const bytes =
