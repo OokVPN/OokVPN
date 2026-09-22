@@ -1,5 +1,5 @@
 const REPO_RAW_BASE =
-  "https://raw.githubusercontent.com/lukirby-vpn/LukirbyVPN/main";
+  "https://raw.githubusercontent.com/OokVPN/OokVPN/main";
 
 const BACKEND_URL =
   "https://ook-backend.vercel.app";
