@@ -1,5 +1,25 @@
 {
   "dns": {
+    "hosts": {
+      "dns.google": [
+        "8.8.8.8",
+        "8.8.4.4"
+      ],
+      "lkfl2.nalog.ru": "213.24.64.175",
+      "lknpd.nalog.ru": "213.24.64.181",
+      "one.one.one.one": [
+        "1.1.1.1",
+        "1.0.0.1"
+      ],
+      "cloudflare-dns.com": [
+        "1.1.1.1",
+        "1.0.0.1"
+      ],
+      "common.dot.dns.yandex.net": [
+        "77.88.8.8",
+        "77.88.8.1"
+      ]
+    },
     "tag": "dns-module",
     "servers": [
       {
@@ -68,12 +88,47 @@
           "domain:s7.ru"
         ]
       },
+      {
+        "tag": "local-dns",
+        "address": "localhost",
+        "domains": [
+          "geosite:private",
+          "domain:vaultberry.cloud",
+          "domain:geodema.network",
+          "domain:geodema.love",
+          "domain:moscow-neversleep.digital"
+        ],
+        "skipFallback": true
+      },
+      {
+        "tag": "yandex-dns",
+        "address": "https://common.dot.dns.yandex.net/dns-query",
+        "domains": [
+          "geosite:category-ru",
+          "domain:nalog.ru",
+          "domain:gov.ru",
+          "domain:mwscdn.ru"
+        ],
+        "timeoutMs": 1000,
+        "skipFallback": true
+      },
+      {
+        "tag": "cloudflare-dns",
+        "address": "https://cloudflare-dns.com/dns-query",
+        "timeoutMs": 1000
+      },
+      {
+        "tag": "google-dns",
+        "address": "https://dns.google/dns-query",
+        "timeoutMs": 1000
+      },
       "1.1.1.1",
       "1.0.0.1",
       "8.8.8.8"
     ],
     "disableCache": false,
-    "queryStrategy": "UseIPv4"
+    "queryStrategy": "UseIPv4",
+    "disableFallback": false
   },
   "log": {
     "loglevel": "warning"
@@ -137,6 +192,39 @@
           "fe80::/10"
         ],
         "type": "field",
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "ip": [
+          "geoip:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "geosite:private"
+        ],
+        "outboundTag": "direct"
+      },
+      {
+        "type": "field",
+        "domain": [
+          "domain:speedtest.net",
+          "domain:ookla.com",
+          "domain:speedtest.com",
+          "domain:fast.com",
+          "domain:nperf.com",
+          "domain:speedof.me",
+          "domain:librespeed.org",
+          "domain:openspeedtest.com",
+          "domain:speedcheck.org",
+          "domain:testmy.net",
+          "domain:measurementlab.net",
+          "domain:speedtestcustom.com",
+          "domain:waveform.com"
+        ],
         "outboundTag": "direct"
       },
       {
@@ -219,7 +307,8 @@
           "proxy",
           "proxy-2",
           "proxy-3",
-          "proxy-4"
+          "proxy-4",
+          "proxy-5"
         ],
         "strategy": {
           "type": "leastLoad",
@@ -407,6 +496,42 @@
       }
     },
     {
+      "tag": "proxy-5",
+      "protocol": "vless",
+      "settings": {
+        "vnext": [
+          {
+            "address": "eu86.vaultberry.cloud",
+            "port": 443,
+            "users": [
+              {
+                "id": "102ff202-787b-4c28-b71e-940645c19f08",
+                "encryption": "none",
+                "flow": ""
+              }
+            ]
+          }
+        ]
+      },
+      "streamSettings": {
+        "network": "tcp",
+        "tcpSettings": {},
+        "security": "reality",
+        "realitySettings": {
+          "serverName": "eu86.vaultberry.cloud",
+          "publicKey": "zYNnGVEkMFCUR_9NcYeaXfm9A_L-PP6iG2sIIST6S0M",
+          "shortId": "1ed136481e0ede74",
+          "fingerprint": "firefox"
+        }
+      },
+      "mux": {
+        "enabled": true,
+        "concurrency": 6,
+        "xudpConcurrency": 4,
+        "xudpProxyUDP443": "reject"
+      }
+    },
+    {
       "tag": "block",
       "protocol": "blackhole"
     },
@@ -422,16 +547,18 @@
   "burstObservatory": {
     "pingConfig": {
       "timeout": "5s",
-      "interval": "60s",
+      "interval": "30s",
       "sampling": 3,
       "httpMethod": "HEAD",
-      "destination": "https://www.gstatic.com/generate_204"
+      "destination": "https://www.gstatic.com/generate_204",
+      "connectivity": ""
     },
     "subjectSelector": [
       "proxy",
       "proxy-2",
       "proxy-3",
-      "proxy-4"
+      "proxy-4",
+      "proxy-5"
     ]
   },
   "remarks": "🇪🇺 АВТО #1 ⚡"
