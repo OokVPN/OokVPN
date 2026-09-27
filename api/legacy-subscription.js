@@ -15,6 +15,28 @@ const LEGACY_SERVERS = [
   "Russia1"
 ];
 
+function normalizeUnicode(value) {
+  if (typeof value === "string") {
+    return value.normalize("NFC");
+  }
+
+  if (Array.isArray(value)) {
+    return value.map(normalizeUnicode);
+  }
+
+  if (value && typeof value === "object") {
+    const result = {};
+
+    for (const [key, val] of Object.entries(value)) {
+      result[normalizeUnicode(key)] = normalizeUnicode(val);
+    }
+
+    return result;
+  }
+
+  return value;
+}
+
 export default async function handler(req, res) {
   if (req.method !== "GET") {
     res.setHeader("Allow", "GET");
@@ -25,13 +47,15 @@ export default async function handler(req, res) {
     const results = [];
 
     for (const name of LEGACY_SERVERS) {
-      const url = `${REPO_RAW_BASE}/servers/${encodeURIComponent(name)}.json`;
+      const url =
+        `${REPO_RAW_BASE}/servers/${encodeURIComponent(name)}.json`;
 
       try {
         const response = await fetch(url, {
           cache: "no-store",
           headers: {
-            "Accept": "application/json",
+            Accept: "application/json",
+            "Accept-Charset": "utf-8",
             "User-Agent": "OokVPN-Legacy/1.0"
           }
         });
@@ -46,7 +70,7 @@ export default async function handler(req, res) {
 
         if (!text.trim()) {
           throw new Error(
-            `${name}.json: GitHub returned empty response`
+            `${name}.json: empty response`
           );
         }
 
@@ -54,11 +78,13 @@ export default async function handler(req, res) {
 
         try {
           json = JSON.parse(text);
-        } catch (parseError) {
+        } catch (error) {
           throw new Error(
-            `${name}.json: invalid JSON — ${parseError.message}`
+            `${name}.json: invalid JSON — ${error.message}`
           );
         }
+
+        json = normalizeUnicode(json);
 
         results.push(json);
 
@@ -71,16 +97,22 @@ export default async function handler(req, res) {
         return res.status(500).json({
           error: "Legacy subscription error",
           server: name,
-          message: error.message,
-          url: `${REPO_RAW_BASE}/servers/${name}.json`
+          message:
+            error instanceof Error
+              ? error.message
+              : String(error)
         });
       }
     }
 
+    const output = JSON.stringify(results);
+
     /*
-     * Happ subscription metadata
-     * Supported according to Happ documentation.
+     * ВАЖНО:
+     * HTTP headers могут содержать только ASCII.
+     * Никаких 🇪🇺 🫡 ⚠️ или кириллицы здесь.
      */
+
     res.setHeader(
       "Content-Type",
       "application/json; charset=utf-8"
@@ -101,9 +133,12 @@ export default async function handler(req, res) {
       "upload=0; download=0; total=0"
     );
 
+    /*
+     * ASCII-only announce.
+     */
     res.setHeader(
       "announce",
-      "⚠️ OokVPN Legacy — старая версия подписки. Gemini не работает."
+      "OokVPN Legacy - legacy subscription"
     );
 
     res.setHeader(
@@ -116,7 +151,7 @@ export default async function handler(req, res) {
       "no-cache"
     );
 
-    return res.status(200).json(results);
+    return res.status(200).send(output);
 
   } catch (error) {
     console.error(
