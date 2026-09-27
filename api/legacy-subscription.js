@@ -15,6 +15,10 @@ const LEGACY_SERVERS = [
   "Russia1"
 ];
 
+function encodeHappBase64(text) {
+  return `base64:${Buffer.from(text, "utf8").toString("base64")}`;
+}
+
 function normalizeUnicode(value) {
   if (typeof value === "string") {
     return value.normalize("NFC");
@@ -84,9 +88,7 @@ export default async function handler(req, res) {
           );
         }
 
-        json = normalizeUnicode(json);
-
-        results.push(json);
+        results.push(normalizeUnicode(json));
 
       } catch (error) {
         console.error(
@@ -106,12 +108,12 @@ export default async function handler(req, res) {
     }
 
     const output = JSON.stringify(results);
+    
+    const profileTitle =
+      "OokVPN Legacy 🫡";
 
-    /*
-     * ВАЖНО:
-     * HTTP headers могут содержать только ASCII.
-     * Никаких 🇪🇺 🫡 ⚠️ или кириллицы здесь.
-     */
+    const announce =
+      "⚠️ OokVPN Legacy — старая версия подписки. Gemini не работает.";
 
     res.setHeader(
       "Content-Type",
@@ -120,7 +122,7 @@ export default async function handler(req, res) {
 
     res.setHeader(
       "profile-title",
-      "OokVPN Legacy"
+      encodeHappBase64(profileTitle)
     );
 
     res.setHeader(
@@ -133,12 +135,9 @@ export default async function handler(req, res) {
       "upload=0; download=0; total=0"
     );
 
-    /*
-     * ASCII-only announce.
-     */
     res.setHeader(
       "announce",
-      "OokVPN Legacy - legacy subscription"
+      encodeHappBase64(announce)
     );
 
     res.setHeader(
