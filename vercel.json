@@ -1,4 +1,27 @@
 {
+  "headers": [
+    {
+      "source": "/legacy.json",
+      "headers": [
+        {
+          "key": "profile-title",
+          "value": "OokVPN Legacy"
+        },
+        {
+          "key": "profile-update-interval",
+          "value": "1"
+        },
+        {
+          "key": "subscription-userinfo",
+          "value": "upload=0; download=0; total=0"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
+    }
+  ],
   "rewrites": [
     {
       "source": "/sub.txt",
