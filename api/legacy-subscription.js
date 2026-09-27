@@ -11,6 +11,7 @@ const LEGACY_SERVERS = [
   "Finland1",
   "Germany1",
   "Netherlands1",
+  "Netherlands2",
   "Poland1",
   "Russia1"
 ];
