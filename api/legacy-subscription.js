@@ -17,29 +17,70 @@ const LEGACY_SERVERS = [
 
 export default async function handler(req, res) {
   if (req.method !== "GET") {
+    res.setHeader("Allow", "GET");
     return res.status(405).send("Method Not Allowed");
   }
 
   try {
-    const results = await Promise.all(
-      LEGACY_SERVERS.map(async (name) => {
-        const response = await fetch(
-          `${REPO_RAW_BASE}/servers/${name}.json`,
-          {
-            cache: "no-store"
+    const results = [];
+
+    for (const name of LEGACY_SERVERS) {
+      const url = `${REPO_RAW_BASE}/servers/${encodeURIComponent(name)}.json`;
+
+      try {
+        const response = await fetch(url, {
+          cache: "no-store",
+          headers: {
+            "Accept": "application/json",
+            "User-Agent": "OokVPN-Legacy/1.0"
           }
-        );
+        });
+
+        const text = await response.text();
 
         if (!response.ok) {
           throw new Error(
-            `${name}.json: GitHub returned ${response.status}`
+            `${name}.json: GitHub HTTP ${response.status} ${response.statusText}`
           );
         }
 
-        return await response.json();
-      })
-    );
+        if (!text.trim()) {
+          throw new Error(
+            `${name}.json: GitHub returned empty response`
+          );
+        }
 
+        let json;
+
+        try {
+          json = JSON.parse(text);
+        } catch (parseError) {
+          throw new Error(
+            `${name}.json: invalid JSON — ${parseError.message}`
+          );
+        }
+
+        results.push(json);
+
+      } catch (error) {
+        console.error(
+          `[Legacy] Failed to load ${name}.json:`,
+          error
+        );
+
+        return res.status(500).json({
+          error: "Legacy subscription error",
+          server: name,
+          message: error.message,
+          url: `${REPO_RAW_BASE}/servers/${name}.json`
+        });
+      }
+    }
+
+    /*
+     * Happ subscription metadata
+     * Supported according to Happ documentation.
+     */
     res.setHeader(
       "Content-Type",
       "application/json; charset=utf-8"
@@ -47,7 +88,7 @@ export default async function handler(req, res) {
 
     res.setHeader(
       "profile-title",
-      "OokVPN Legacy 🫡"
+      "OokVPN Legacy"
     );
 
     res.setHeader(
@@ -61,26 +102,34 @@ export default async function handler(req, res) {
     );
 
     res.setHeader(
-      "Cache-Control",
-      "no-store"
+      "announce",
+      "⚠️ OokVPN Legacy — старая версия подписки. Gemini не работает."
     );
 
     res.setHeader(
-      "announce",
-      "⚠️ OokVPN Legacy — старая версия подписки. Gemini не работает."
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate"
+    );
+
+    res.setHeader(
+      "Pragma",
+      "no-cache"
     );
 
     return res.status(200).json(results);
 
   } catch (error) {
     console.error(
-      "Legacy subscription error:",
+      "Legacy subscription fatal error:",
       error
     );
 
     return res.status(500).json({
-      error: "Legacy subscription error",
-      message: error.message
+      error: "Legacy subscription fatal error",
+      message:
+        error instanceof Error
+          ? error.message
+          : String(error)
     });
   }
 }
