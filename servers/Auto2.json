@@ -1,21 +1,71 @@
 {
   "dns": {
     "tag": "dns-module",
-    "hosts": {
-      "ntc.party": [
-        "130.255.77.28"
-      ]
-    },
     "servers": [
       {
         "address": "77.88.8.8",
         "domains": [
-          "geosite:category-ru",
-          "geosite:private"
-        ],
-        "timeoutMs": 600,
-        "unexpectedIPs": [
-          "geoip:private"
+          "domain:ozon.com",
+          "domain:ozon.ru",
+          "domain:wildberries.ru",
+          "domain:wb.ru",
+          "domain:avito.ru",
+          "domain:vk.com",
+          "domain:yandex.ru",
+          "domain:yandex.net",
+          "domain:sber.ru",
+          "domain:sberbank.ru",
+          "domain:gosuslugi.ru",
+          "domain:mail.ru",
+          "domain:ok.ru",
+          "domain:rutube.ru",
+          "domain:tinkoff.ru",
+          "domain:raiffeisen.ru",
+          "domain:alfa-bank.ru",
+          "domain:mvideo.ru",
+          "domain:dns-shop.ru",
+          "domain:eldorado.ru",
+          "domain:citilink.ru",
+          "domain:kaspersky.ru",
+          "domain:mos.ru",
+          "domain:rbc.ru",
+          "domain:gazprombank.ru",
+          "domain:vtb.ru",
+          "domain:sbp.ru",
+          "domain:psbank.ru",
+          "domain:rosbank.ru",
+          "domain:mkb.ru",
+          "domain:sovcombank.ru",
+          "domain:homecredit.ru",
+          "domain:pochtabank.ru",
+          "domain:qiwi.com",
+          "domain:yoomoney.ru",
+          "domain:nalog.ru",
+          "domain:cbr.ru",
+          "domain:pochta.ru",
+          "domain:gibdd.ru",
+          "domain:rosreestr.ru",
+          "domain:mvd.ru",
+          "domain:fns.ru",
+          "domain:mts.ru",
+          "domain:beeline.ru",
+          "domain:megafon.ru",
+          "domain:tele2.ru",
+          "domain:yota.ru",
+          "domain:lamoda.ru",
+          "domain:sbermegamarket.ru",
+          "domain:samokat.ru",
+          "domain:cdek.ru",
+          "domain:boxberry.ru",
+          "domain:kinopoisk.ru",
+          "domain:ivi.ru",
+          "domain:okko.tv",
+          "domain:more.tv",
+          "domain:start.ru",
+          "domain:2gis.ru",
+          "domain:rzd.ru",
+          "domain:aeroflot.ru",
+          "domain:s7.ru"
         ]
       },
       "1.1.1.1",
@@ -23,8 +73,7 @@
       "8.8.8.8"
     ],
     "disableCache": false,
-    "queryStrategy": "UseIPv4",
-    "useSystemHosts": false
+    "queryStrategy": "UseIPv4"
   },
   "log": {
     "loglevel": "warning"
@@ -73,7 +122,7 @@
         "protocol": [
           "bittorrent"
         ],
-        "outboundTag": "block"
+        "outboundTag": "direct"
       },
       {
         "ip": [
@@ -123,7 +172,6 @@
           "domain:psbank.ru",
           "domain:rosbank.ru",
           "domain:mkb.ru",
-          "domain:sovcombank.ru",
           "domain:homecredit.ru",
           "domain:pochtabank.ru",
           "domain:qiwi.com",
@@ -258,10 +306,6 @@
           "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
           "fingerprint": "qq"
         }
-      },
-      "mux": {
-        "enabled": true,
-        "concurrency": 8
       }
     },
     {
@@ -291,10 +335,6 @@
           "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
           "fingerprint": "qq"
         }
-      },
-      "mux": {
-        "enabled": true,
-        "concurrency": 8
       }
     },
     {
@@ -324,10 +364,6 @@
           "publicKey": "uTtaQ2ukMIbjoqBEZY97u8JtwsMKshUO8HTPMdlJ2Ro",
           "fingerprint": "qq"
         }
-      },
-      "mux": {
-        "enabled": true,
-        "concurrency": 8
       }
     },
     {
@@ -355,13 +391,9 @@
         "realitySettings": {
           "serverName": "kookas.fi",
           "publicKey": "qB_eMu3ZO_wGITnyIqJ7Kt39-h9oHFnHlQQEqA-r3VA",
-          "fingerprint": "firefox",
-          "shortId": "43dcff53849b81e6"
+          "shortId": "43dcff53849b81e6",
+          "fingerprint": "firefox"
         }
-      },
-      "mux": {
-        "enabled": true,
-        "concurrency": 8
       }
     },
     {
