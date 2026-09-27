@@ -41,7 +41,7 @@ export default async function handler(req, res) {
     );
 
     res.setHeader("Content-Type", "application/json; charset=utf-8");
-    res.setHeader("profile-title", "OokVPN Legacy");
+    res.setHeader("profile-title", "OokVPN Legacy 🫡");
     res.setHeader("profile-update-interval", "1");
     res.setHeader(
       "subscription-userinfo",
@@ -49,7 +49,10 @@ export default async function handler(req, res) {
     );
     res.setHeader("Cache-Control", "no-store");
 
-    return res.status(200).json(results);
+    return res.status(200).json({
+      announce: "⚠️ OokVPN Legacy — старая версия подписки. Gemini не работает.",
+      servers: results
+    });
   } catch (error) {
     console.error("Legacy subscription error:", error);
 
