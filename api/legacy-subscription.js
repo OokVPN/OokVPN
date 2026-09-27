@@ -9,10 +9,7 @@ const LEGACY_SERVERS = [
   "Bypass3",
   "Bypass4",
   "Finland1",
-  "Finland2",
   "Germany1",
-  "Germany2",
-  "Germany3",
   "Netherlands1",
   "Poland1",
   "Russia1"
